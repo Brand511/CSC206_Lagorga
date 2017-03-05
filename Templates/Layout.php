@@ -31,7 +31,7 @@ class layout
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Swtor</a>
+                <a class="navbar-brand" href="index.php">Swtor</a>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav navbar-right">
@@ -39,7 +39,8 @@ class layout
                     <li><a href="#services">SERVICES</a></li>
                     <li><a href="#portfolio">PORTFOLIO</a></li>
                     <li><a href="#contact">CONTACT</a></li>
-                    <li><a href="#blog">BLOG</a></li>
+                    <li><a href="createPost.php">CreatePost</a></li>
+                    <li><a href="Post Table.php">Post table</a></li>
                 </ul>
             </div>
         </div>
@@ -63,6 +64,9 @@ pagetop;
 
     }
 
+    /**
+     *
+     */
     public static function pageBottom()
     {
         echo <<<pagebottom
@@ -75,6 +79,45 @@ pagetop;
 </footer>
 </html>
 pagebottom;
+    }
+
+
+    /**
+     * This method will take a 2-dimensional array and create a table.
+     * The header columns are derived from the keys of the row data
+     *
+     * @param $data
+     * @return string
+     */
+
+    public function buildTable($data)
+    {
+        // Start building the table
+        $table = '<table class="table table-hover">';
+        // Create the table header row
+        $header = '<tr>';
+        foreach ($data[0] as $key => $cell) {
+            $header .= '<th>' . $key . '</th>';
+        }
+        $header .= '</tr>';
+        // Add the header to the table
+        $table .= $header;
+        // Build the table rows
+        $rowHTML = '';
+        // Loop through each row of data and build a row
+        foreach ($data as $row) {
+            $rowHTML .= '<tr>';
+            // Loop through each cell and create the cells
+            foreach ($row as $cell) {
+                $rowHTML .= '<td>' . $cell . '</td>';
+            }
+            $rowHTML .= '</tr>';
+        }
+        // Add the rows to the table
+        $table .= $rowHTML;
+        // Close out the table
+        $table .= '</table>';
+        return $table;
     }
 
     public static function news($title, $author, $date, $content)
@@ -91,7 +134,6 @@ pagebottom;
 blogpost;
 
     }
-
     public static function mainMenu()
     {
         echo <<<mainMenu
