@@ -5,12 +5,10 @@ require($_SERVER[ 'DOCUMENT_ROOT' ] . '/../includes/application_includes.php');
 require_once(FS_TEMPLATES . 'Layout.php');
 require_once(FS_TEMPLATES . 'News.php');
 // Connect to the database
-$db = new PDO("mysql:host=localhost;dbName=database;","Brand511","Lagorga17");
-// Get the stories for column 1 from the database
-$sql = 'select * from posts';
+$db = new Database(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+$sql = 'select * from posts order by startDate DESC';
 $posts = $db->query($sql);
-// Run a simple query that will be rendered in column 2 below
-$sql = "select id, name, description from pages";
+$sql = 'select id, name, description from pages';
 $res = $db->query($sql);
 Layout::pageTop('CSC206 Project');
 Layout::mainMenu();

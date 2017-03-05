@@ -5,10 +5,7 @@ require($_SERVER[ 'DOCUMENT_ROOT' ] . '/../includes/application_includes.php');
 require_once(FS_TEMPLATES . 'Layout.php');
 require_once(FS_TEMPLATES . 'News.php');
 // Connect to the database
-$host = 'Localhost';
-$user ='Brand511';
-$pass = 'Lagorga17';
-$db = 'database';
+$db = new Database(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 // Initialize variables
 $requestType = $_SERVER[ 'REQUEST_METHOD' ];
 Layout::pageTop('CSC206 Project');
