@@ -1,5 +1,5 @@
 <?php
-class Database
+class database
 {
     /**
      * Stores error messages for connection errors
@@ -109,10 +109,12 @@ class MySQLResult
      * @internal param $query
      * @internal param $mysql
      */
-    public function __construct($db, $result)
+    private $pdo;
+    public function __construct($db, $result,$pdo)
     {
         $this->db = $db;
         $this->result = $result;
+        $this->pdo = $pdo;
     }
     public function fetch()
     {
