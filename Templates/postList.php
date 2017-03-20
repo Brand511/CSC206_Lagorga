@@ -1,5 +1,6 @@
 <?php
-class postList{
+class postlist{
+
 
     public static function stories($data)
     {
@@ -7,19 +8,28 @@ class postList{
             Self::story($story);
         }
     }
-    public static function makeTable($data)
+
+
+
+    public static function makeTable()
     {
         echo <<<supertable
+	<form id="listPostForm" action='updatePost.php' method="GET">
 	<table>	
-	<th>Title</th>
+		
+		<th>Title</th>
 		<th>Started</th>
 		<th>Ended</th>
-		<th>Options</th>
+		<th colspan= "3">Options</th>
 supertable;
     }
 
+
     public static function story($data)
     {
+
+
+        $id = $data['id'];
         $title = $data['title'];
         $startDate = $data['startDate'];
         $endDate = $data['endDate'];
@@ -27,19 +37,18 @@ supertable;
         $realEndDate = date('y-m-d',strtotime($endDate));
 
 
-
         echo <<<story
 			<tr>
-            <td>$title</td>
+			                 
+            <td class ="longWords">$title</td>
 			<td>$realStartDate</td>  
 			<td>$realEndDate</td>
-			<td> <div class="form-group">
-                <label class="col-md-3 control-label" for="submit"></label>
-                <div class="col-md-8">
-                    <button id="submit" name="submit" value="Edit" class="btn btn-success">Edit</button>
-                    <button id="cancel" name="cancel" value="Delete" class="btn btn-info">Delete</button>
+                    <td><a class="editButton" href="/updatePost.php?id=$id">Edit</a></td>
+					<td><a class="editButton" href="/ViewPost.php?id=$id">View</a></td>
+					 <td><a class="deleteButton" href="/deletePost.php?id=$id">Delete</a></td>
+					 
                 </div>
-            </div></td>
+            </div>
 			</tr>.
 story;
 
@@ -51,6 +60,8 @@ story;
     {
         echo <<<superTable
 			</table>
+			</form>
 superTable;
     }
+
 }

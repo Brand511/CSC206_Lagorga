@@ -90,13 +90,13 @@ pagebottom;
      * @return string
      */
 
-    public function buildTable($data)
+    public static function buildTable($data)
     {
         // Start building the table
         $table = '<table class="table table-hover">';
         // Create the table header row
         $header = '<tr>';
-        foreach ($data[0] as $key => $cell) {
+        foreach ( $data[ 0 ] as $key => $cell ) {
             $header .= '<th>' . $key . '</th>';
         }
         $header .= '</tr>';
@@ -105,10 +105,10 @@ pagebottom;
         // Build the table rows
         $rowHTML = '';
         // Loop through each row of data and build a row
-        foreach ($data as $row) {
+        foreach ( $data as $row ) {
             $rowHTML .= '<tr>';
             // Loop through each cell and create the cells
-            foreach ($row as $cell) {
+            foreach ( $row as $cell ) {
                 $rowHTML .= '<td>' . $cell . '</td>';
             }
             $rowHTML .= '</tr>';
