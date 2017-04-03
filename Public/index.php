@@ -6,7 +6,6 @@ require_once(FS_TEMPLATES . 'Layout.php');
 require_once(FS_TEMPLATES . 'postlist.php');
 require_once(FS_TEMPLATES . 'News.php');
 // Connect to the database
-$db = new Database(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 // Get the stories for column 1 from the database
 $sql = 'select * from posts';
 $posts = $db->query($sql);
@@ -18,6 +17,9 @@ Layout::pageTop('CSC206 Project');
 <div class="container top25">
     <div class="col-md-6">
         <section class="content">
+
+            <H1>Hello<?php echo $_SESSION['user']['firstName'];?></H1>
+
             <h1>Recent Posts</h1>
             <?php
             // Loop through the posts and display them

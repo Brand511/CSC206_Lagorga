@@ -7,52 +7,47 @@ require_once(FS_TEMPLATES . 'News.php');
 // Generate the HTML for the top of the page
 Layout::pageTop('CSC206 Project');
 ?>
-    <div class="container top25">
-        <div class="col-md-8">
-            <section class="content">
-                <H1>Hello<?php echo $_SESSION['user']['firstName'];?></H1>
-                <?php
+<div class="container top25">
+    <div class="col-md-8">
+        <section class="content">
+            <H1>Hello<?php echo $_SESSION['user']['firstName'];?></H1>
+            <?php
             if (isset($_SESSION['user'])) {
                 if ($requestType == 'GET') {
-                    $sql = 'select * from posts where id = ' . $_GET['id'];
+                    $sql = 'select * from users where id = ' . $_GET['id'];
                     $result = $db->query($sql);
                     $row = $result->fetch();
-
                     $id = $row['id'];
-                    $title = $row['title'];
-                    $content = $row['content'];
-                    $startDate = $row['startDate'];
-                    $endDate = $row['endDate'];
+                    $email = $row['email'];
+                    $firstName = $row['firstName'];
+                    $lastName = $row['lastName'];
 
                     echo <<<post
 				
-                    <h2>$title</h2>
+                    <h2>$email</h2>
 					<div class ="BlockText">
-					<p>$content</p>
+					<p></p>
 					</div>
-					<p>$startDate - $endDate</p>
+					<p>$firstName $lastName</p>
 					
 post;
+
+
                 } elseif ($requestType == 'POST') {
                     //Validate data
                     $id = $_POST['id'];
-                    $title = htmlspecialchars($_POST['title'], ENT_QUOTES);
-                    $content = htmlspecialchars($_POST['content'], ENT_QUOTES);
+                    //$title = htmlspecialchars($_POST['title'], ENT_QUOTES);
+                    //$content = htmlspecialchars($_POST['content'], ENT_QUOTES);
                     // Save data
-                    $sql = "delete from posts where id=$id";
+                    $sql = "delete from users where id=$id";
                     $result = $db->query($sql);
-                    echo 'This Post was deleted successfully';
+                    echo 'This user was deleted successfully';
                 }
             }
                 ?>
-
-
-            </section>
-        </div>
-    </div>
-
-
-
+                </section>
+                </div>
+                </div>
 
 <?php
 // Generate the page footer

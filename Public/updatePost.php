@@ -4,28 +4,25 @@ require($_SERVER[ 'DOCUMENT_ROOT' ] . '/../includes/application_includes.php');
 // Include the HTML layout class
 require_once(FS_TEMPLATES . 'Layout.php');
 require_once(FS_TEMPLATES . 'News.php');
-// Connect to the database
-$db = new Database(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-// Initialize variables
-$requestType = $_SERVER[ 'REQUEST_METHOD' ];
 // Generate the HTML for the top of the page
 Layout::pageTop('CSC206 Project');
 ?>
 <div class="container top25">
     <div class="col-md-8">
         <section class="content">
-
+            <H1>Hello<?php echo $_SESSION['user']['firstName'];?></H1>
             <?php
-            if ( $requestType == 'GET' ) {
-                $sql = 'select * from posts where id = ' . $_GET['id'];
-                $result = $db->query($sql);
-                $row = $result->fetch();
-                $id = $row['id'];
-                $title= $row['title'];
-                $content= $row['content'];
-                $startDate= $row['startDate'];
-                $endDate= $row['endDate'];
-                echo <<<postform
+            if (isset($_SESSION['user'])) {
+                if ($requestType == 'GET') {
+                    $sql = 'select * from posts where id = ' . $_GET['id'];
+                    $result = $db->query($sql);
+                    $row = $result->fetch();
+                    $id = $row['id'];
+                    $title = $row['title'];
+                    $content = $row['content'];
+                    $startDate = $row['startDate'];
+                    $endDate = $row['endDate'];
+                    echo <<<postform
                     <form id="createPostForm" action='updatePost.php' method="POST" class="form-horizontal">
                         <fieldset>
                         <input type="hidden" name="id" value="$id">
@@ -77,15 +74,16 @@ Layout::pageTop('CSC206 Project');
                         </fieldset>
                     </form>
 postform;
-            } elseif ( $requestType == 'POST' ) {
-                //Validate data
-                $id = $_POST['id'];
-                $title = htmlspecialchars($_POST['title'], ENT_QUOTES);
-                $content = htmlspecialchars($_POST['content'], ENT_QUOTES);
-                // Save data
-                $sql = "update posts set title = '$title', content= '$content'  where id=$id;";
-                $result = $db->query($sql);
-                echo 'It worked';
+                } elseif ($requestType == 'POST') {
+                    //Validate data
+                    $id = $_POST['id'];
+                    $title = htmlspecialchars($_POST['title'], ENT_QUOTES);
+                    $content = htmlspecialchars($_POST['content'], ENT_QUOTES);
+                    // Save data
+                    $sql = "update posts set title = '$title', content= '$content'  where id=$id;";
+                    $result = $db->query($sql);
+                    echo 'It worked';
+                }
             }
             ?>
 
