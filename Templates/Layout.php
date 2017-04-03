@@ -41,6 +41,10 @@ class layout
                     <li><a href="#contact">CONTACT</a></li>
                     <li><a href="createPost.php">CreatePost</a></li>
                     <li><a href="Post Table.php">Post table</a></li>
+                    <li><a href="Login.php">Login</a></li>
+                    <li><a href="signUp.php">Sign Up</a></li>
+                    <li><a href="UserTable.php">UserTable</a></li>
+                    <li><a href="Logout.php">logout</a></li>
                 </ul>
             </div>
         </div>
