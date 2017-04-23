@@ -39,10 +39,51 @@ class layout
                     <li><a href="#services">SERVICES</a></li>
                     <li><a href="#portfolio">PORTFOLIO</a></li>
                     <li><a href="#contact">CONTACT</a></li>
-                    <li><a href="createPost.php">CreatePost</a></li>
-                    <li><a href="Post Table.php">Post table</a></li>
                     <li><a href="Login.php">Login</a></li>
                     <li><a href="signUp.php">Sign Up</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class ="jumbotron">
+        <div class="jumbotron text-center">
+            <h1>The Golden Age Gaming Community</h1>
+            <p>We hope to help everyone in our Community</p>
+            <p>by showing them our Golden gate for this Game.</p>            
+        </div>
+    </div>
+pagetop;
+    }
+
+    public static function pageTopAdmin($title)
+    {
+        echo <<<pagetop
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title$title</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="/assets/css/Styles.css">
+    </head>
+    <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.php">Swtor</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="createPost.php">CreatePost</a></li>
+                    <li><a href="Post Table.php">Post table</a></li>
                     <li><a href="UserTable.php">UserTable</a></li>
                     <li><a href="Logout.php">logout</a></li>
                 </ul>
@@ -53,19 +94,52 @@ class layout
         <div class="jumbotron text-center">
             <h1>The Golden Age Gaming Community</h1>
             <p>We hope to help everyone in our Community</p>
-            <p>by showing them our Golden gate for this Game.</p>
-            <form class="form-inline">
-                <div class="input-group">
-                    <input type="email" class="form-control" size="50" placeholder="Email Address" required>
-                    <div class="input-group-btn">
-                        <button type="button" class="btn btn-danger">Subscribe</button>
-                    </div>
-                </div>
-            </form>
+            <p>by showing them our Golden gate for this Game.</p>            
         </div>
     </div>
 pagetop;
-
+    }
+    public static function pageTopUser($title)
+    {
+        echo <<<pagetop
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title$title</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="/assets/css/Styles.css">
+    </head>
+    <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.php">Swtor</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="createPost.php">CreatePost</a></li>
+                    <li><a href="Logout.php">logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class ="jumbotron">
+        <div class="jumbotron text-center">
+            <h1>The Golden Age Gaming Community</h1>
+            <p>We hope to help everyone in our Community</p>
+            <p>by showing them our Golden gate for this Game.</p>            
+        </div>
+    </div>
+pagetop;
     }
 
     /**
