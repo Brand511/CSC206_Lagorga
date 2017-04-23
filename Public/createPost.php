@@ -5,7 +5,16 @@ require($_SERVER[ 'DOCUMENT_ROOT' ] . '/../includes/application_includes.php');
 require_once(FS_TEMPLATES . 'Layout.php');
 require_once(FS_TEMPLATES . 'News.php');
 // Generate the HTML for the top of the page
-Layout::pageTop('CSC206 Project');
+if (isset($_SESSION['user'])) {
+    if ($_SESSION['user']['role_id'] == '1') {
+        Layout::pageTopAdmin('CSC206 Project');
+    }
+    else if ($_SESSION['user']['role_id'] == '2') {
+        Layout::pageTopUser('CSC206 Project');
+    }
+}
+else
+    Layout::pageTop('CSC206 Project');
 ?>
     <div class="container top25">
         <div class="col-md-8">
@@ -13,26 +22,52 @@ Layout::pageTop('CSC206 Project');
                 <H1>Hello<?php echo $_SESSION['user']['firstName'];?></H1>
                 <?php
                 if (isset($_SESSION['user'])) {
-
                     if ($requestType == 'GET') {
                         // Display the form
                         showForm();
-                    } elseif ($requestType == 'POST') {
+                    }
+                    elseif ($requestType == 'POST') {
                         if (validateInput($_POST)) {
-                            // Data is valid so save it to the database
-                            // pull the fields from the POST array.
-                            $title = htmlspecialchars($_POST['title'], ENT_QUOTES);
-                            $content = htmlspecialchars($_POST['content'], ENT_QUOTES);
-                            $startDate = date('Y:m:d H:i:s', strtotime($_POST['startDate']));
-                            $endDate = date('Y:m:d H:i:s', strtotime($_POST['endDate']));
+                            $input = $_POST;
+                            // Check for a valid file upload
+                            $file = $_FILES[ 'image' ][ 'tmp_name' ];
+                            if ( !is_uploaded_file($file) ) {
+                                echo '<h3>Error</h3><p>File was not uploaded via POST form.</p>';
+                                exit;
+                            }
+                            if ( file_exists($file) ) {
+                                $imagesizedata = getimagesize($file);
+                                if ( $imagesizedata === false ) {
+                                    //not image
+                                    echo '<h3>Error</h3><p>Uploaded file is not an image.</p>';
+                                    exit;
+                                } else {
+                                    //image information
+                                    echo '<h3>Success</h3><p>The image was uploaded</p>';
+                                    // Copy image to permanent location
+                                    $uploaded_file = $_SERVER[ 'DOCUMENT_ROOT' ] . '/assets/img/' . $_FILES[ 'image' ][ 'name' ];
+                                    // Move file to permanent location
+                                    move_uploaded_file($file, $uploaded_file);
+                                    // Data is valid so save it to the database
+                                    // pull the fields from the POST array.
+                                    $title = htmlspecialchars($_POST['title'], ENT_QUOTES);
+                                    $content = htmlspecialchars($_POST['content'], ENT_QUOTES);
+                                    $startDate = date('Y:m:d H:i:s', strtotime($_POST['startDate']));
+                                    $endDate = date('Y:m:d H:i:s', strtotime($_POST['endDate']));
+                                }
+                            } else {
+                                //not file
+                                echo '<h3>Error</h3><p>There was an error uploading the file</p>';
+                                exit;
+                            }
                             // This SQL uses double quotes for the query string.  If a field is not a number (it's a string or a date) it needs
                             // to be enclosed in single quotes.  Note that right after values is a ( and a single quote.  Taht single quote comes right
                             // before the value of $title.  Note also that at the end of $title is a ', ' inside of double quotes.  What this will all render
                             // That will generate this piece of SQL:   values ('title text here', 'content text here', '2017-02-01 00:00:00'  and so
                             // on until the end of the sql command.
-                            $sql = "insert into posts (title, content, startDate, endDate, userId) values ('" . $title . "', '" . $content . "', '" . $startDate . "', '" . $endDate . "', 1);";
+                            $sql = "insert into posts (title, content, startDate, endDate, userId, image) values ('" . $title . "', '" . $content . "', '" . $startDate . "', '" . $endDate . "', '". $_SESSION['user']['role_id'] . "','" . $_FILES['image']['name'] ."');";
                             $db->query($sql);
-                            echo '<h1>Your post has been summited.</h1>>';
+                            echo '<h1>Your post has been summited.</h1>';
                         } else {
                             // This is an error so show the form again
                             showForm($_POST);
@@ -56,7 +91,7 @@ $fields = [
     'content'   => ['required', 'string'],
     'startDate' => ['required', 'date'],
     'endDate'   => ['required', 'date'],
-    'image'     => ['optional', 'string']
+    'image'     => ['required', 'varchar(50)']
 ];
 function validateInput($formData)
 {
@@ -90,9 +125,9 @@ function showForm($data = null)
     $content = $data['content'];
     $startDate = $data['startDate'];
     $endDate = $data['endDate'];
-    // $image = $data['image'];
+    $image = $data['image'];
     echo <<<postform
-    <form id="createPostForm" action='createPost.php' method="POST" class="form-horizontal">
+    <form id="createPostForm" action='createPost.php' method="POST" class="form-horizontal" enctype="multipart/form-data">
         <fieldset>
     
             <!-- Form Name -->
@@ -129,6 +164,14 @@ function showForm($data = null)
                     <input id="endDate" name="endDate" type="text" placeholder="end date" value="$endDate" class="form-control input-md">
                 </div>
             </div>
+            
+        <!-- File Button --> 
+        <div class="form-group">
+                <label class="col-md-3 control-label" for="image">Image Upload</label>
+                <div class="col-md-8">
+                    <input id="image" name="image" class="input-file" value="$image" type="file">
+                </div>
+            </div>
     
             <!-- Button (Double) -->
             <div class="form-group">
@@ -142,6 +185,5 @@ function showForm($data = null)
         </fieldset>
     </form>
 postform;
-
 
 }

@@ -5,7 +5,6 @@ require_once(FS_TEMPLATES . 'Layout.php');
 require_once(FS_TEMPLATES . 'userList.php');
 require_once(FS_TEMPLATES . 'News.php');
 // Generate the HTML for the top of the page
-Layout::pageTop('CSC206 Project');
 $db = new Database(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 // Get the stories for column 1 from the database
 $sql = 'select * from users';
@@ -15,7 +14,16 @@ $posts = $db->query($sql);
 $sql = 'select id, name, description from pages';
 $res = $db->query($sql);
 // echo '<pre>'; print_r($posts); echo '</pre>'; die();
-// Page content goes here
+if (isset($_SESSION['user'])) {
+    if ($_SESSION['user']['role_id'] == '1') {
+        Layout::pageTopAdmin('CSC206 Project');
+    }
+    else if ($_SESSION['user']['role_id'] == '2') {
+        Layout::pageTopUser('CSC206 Project');
+    }
+}
+else
+    Layout::pageTop('CSC206 Project');
 ?>
 <div class="container top25">
     <div class="col-md-8">
